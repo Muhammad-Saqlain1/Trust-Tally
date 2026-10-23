@@ -1,0 +1,23 @@
+{
+  "name": "trust-tally",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Trust-Tally responsive digital khata web application and installable PWA",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/server.js",
+    "dev": "node --watch --env-file-if-exists=.env src/server.js",
+    "db:migrate": "node --env-file-if-exists=.env scripts/migrate.js",
+    "pages:build": "node scripts/build-pages.js",
+    "check": "node scripts/check.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.8",
+    "express": "^5.1.0",
+    "mysql2": "^3.24.6"
+  }
+}

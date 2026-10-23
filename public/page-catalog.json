@@ -1,0 +1,157 @@
+[
+  {
+    "role": "shopkeeper",
+    "path": "/shopkeeper/dashboard.html",
+    "title": "Dashboard"
+  },
+  {
+    "role": "shopkeeper",
+    "path": "/shopkeeper/customers.html",
+    "title": "Customers"
+  },
+  {
+    "role": "shopkeeper",
+    "path": "/shopkeeper/customer-ledger.html",
+    "title": "Customer Ledger"
+  },
+  {
+    "role": "shopkeeper",
+    "path": "/shopkeeper/new-bill.html",
+    "title": "New Bill"
+  },
+  {
+    "role": "shopkeeper",
+    "path": "/shopkeeper/bills.html",
+    "title": "Bills"
+  },
+  {
+    "role": "shopkeeper",
+    "path": "/shopkeeper/payments.html",
+    "title": "Payments and Approvals"
+  },
+  {
+    "role": "shopkeeper",
+    "path": "/shopkeeper/daily-report.html",
+    "title": "Daily Report"
+  },
+  {
+    "role": "shopkeeper",
+    "path": "/shopkeeper/monthly-reports.html",
+    "title": "Monthly Reports"
+  },
+  {
+    "role": "shopkeeper",
+    "path": "/shopkeeper/expenses.html",
+    "title": "Expenses"
+  },
+  {
+    "role": "shopkeeper",
+    "path": "/shopkeeper/suppliers.html",
+    "title": "Suppliers"
+  },
+  {
+    "role": "shopkeeper",
+    "path": "/shopkeeper/item-catalogue.html",
+    "title": "Item Catalogue"
+  },
+  {
+    "role": "shopkeeper",
+    "path": "/shopkeeper/chat.html",
+    "title": "Chat"
+  },
+  {
+    "role": "shopkeeper",
+    "path": "/shopkeeper/account-details.html",
+    "title": "Account Details"
+  },
+  {
+    "role": "shopkeeper",
+    "path": "/shopkeeper/staff.html",
+    "title": "Staff"
+  },
+  {
+    "role": "shopkeeper",
+    "path": "/shopkeeper/audit-log.html",
+    "title": "Audit Log"
+  },
+  {
+    "role": "shopkeeper",
+    "path": "/shopkeeper/profile.html",
+    "title": "Profile and Settings"
+  },
+  {
+    "role": "customer",
+    "path": "/customer/dashboard.html",
+    "title": "Dashboard"
+  },
+  {
+    "role": "customer",
+    "path": "/customer/my-bills.html",
+    "title": "My Bills"
+  },
+  {
+    "role": "customer",
+    "path": "/customer/item-catalogue.html",
+    "title": "Item Catalogue"
+  },
+  {
+    "role": "customer",
+    "path": "/customer/pay.html",
+    "title": "Pay"
+  },
+  {
+    "role": "customer",
+    "path": "/customer/my-payments.html",
+    "title": "My Payments"
+  },
+  {
+    "role": "customer",
+    "path": "/customer/monthly-statements.html",
+    "title": "Monthly Statements"
+  },
+  {
+    "role": "customer",
+    "path": "/customer/chat.html",
+    "title": "Chat"
+  },
+  {
+    "role": "customer",
+    "path": "/customer/shopkeeper-contact.html",
+    "title": "Shopkeeper Contact"
+  },
+  {
+    "role": "customer",
+    "path": "/customer/profile.html",
+    "title": "Profile"
+  },
+  {
+    "role": "customer",
+    "path": "/customer/daily-report.html",
+    "title": "Daily Report"
+  },
+  {
+    "role": "customer",
+    "path": "/customer/monthly-report.html",
+    "title": "Monthly Reports"
+  },
+  {
+    "role": "shopkeeper",
+    "path": "/shopkeeper/login.html",
+    "title": "Login"
+  },
+  {
+    "role": "customer",
+    "path": "/customer/login.html",
+    "title": "Login"
+  },
+  {
+    "role": "shared",
+    "path": "/register.html",
+    "title": "register"
+  },
+  {
+    "role": "shared",
+    "path": "/accept-invite.html",
+    "title": "accept-invite"
+  }
+]

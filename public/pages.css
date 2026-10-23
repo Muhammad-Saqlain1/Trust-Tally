@@ -1,0 +1,111 @@
+/* Shared additions for every standalone PRD screen. */
+.sidebar { overflow-y: auto; overscroll-behavior: contain; }
+.sidebar > .brand, .sidebar > .shop-switcher { flex-shrink: 0; }
+.sidebar .nav a { flex-shrink: 0; }
+.sidebar-bottom { min-height: max-content; }
+button.mobile-overlay { border: 0; padding: 0; }
+.page > .panel + .panel, .page > .contact-grid + .panel { margin-top: 24px; }
+.page > .panel + .stats { margin-top: 24px; }
+.section-gap { margin-top: 24px; }
+.page-actions { flex-wrap: wrap; justify-content: flex-end; }
+.page-actions .button { white-space: nowrap; }
+.page-quick-links { display: flex; flex-direction: column; gap: 12px; }
+.report-filters { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-end; }
+.report-filters .field { flex: 1 1 150px; margin-bottom: 0; min-width: 0; }
+.report-filters > .button { margin-bottom: 1px; }
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+.tab { border: 1px solid var(--line); background: white; color: var(--dark); border-radius: 8px; padding: 10px 14px; min-height: 42px; font-size: 12px; }
+.tab:hover, .tab.active { background: var(--pale); border-color: var(--red); }
+.chat-layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); min-height: 590px; }
+.chat-contacts { border-right: 1px solid var(--line); min-width: 0; }
+.chat-search { padding: 16px; border-bottom: 1px solid var(--line); }
+.chat-contact { width: 100%; display: flex; flex-direction: column; gap: 6px; border: 0; border-bottom: 1px solid var(--line); background: white; color: var(--ink); text-align: left; padding: 17px 20px; }
+.chat-contact:hover, .chat-contact.active { background: var(--pale); }
+.chat-contact strong { font-size: 12px; }
+.chat-contact small { color: var(--muted); font-size: 10px; }
+.chat-thread { display: flex; flex-direction: column; min-width: 0; }
+.chat-messages { flex: 1; min-height: 260px; padding: 22px; }
+.chat-messages .empty { padding-top: 60px; }
+.chat-composer { border-top: 1px solid var(--line); padding: 20px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: flex-end; }
+.chat-composer .field { margin: 0; }
+.chat-composer textarea { min-height: 70px; }
+.chat-composer [data-feedback] { grid-column: 1 / -1; margin: 0; }
+.permission-grid { border: 1px solid var(--line); border-radius: 10px; padding: 10px 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; }
+.permission-grid legend { font-size: 12px; padding: 0 7px; font-weight: 650; }
+.payment-account { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); padding: 19px 0; }
+.payment-account strong { display: block; margin-top: 8px; font-size: 14px; overflow-wrap: anywhere; }
+.payment-account .icon-button { flex-shrink: 0; }
+.password-control { position: relative; display: block; }
+.password-control input { width: 100%; padding-right: 48px; }
+.password-toggle { position: absolute; right: 6px; top: 50%; width: 36px; height: 36px; padding: 8px; border: 0; border-radius: 8px; background: transparent; color: var(--red); transform: translateY(-50%); cursor: pointer; }
+.password-toggle:hover,.password-toggle:focus-visible { background: var(--pale); }
+.password-toggle .icon { width: 20px; height: 20px; }
+.gateway-options { display: flex; gap: 10px; flex-wrap: wrap; }
+.qr-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 14px; border: 1px dashed var(--red); border-radius: 12px; background: var(--pale); color: var(--ink); min-height: 155px; padding: 22px; max-width: 310px; margin: 22px auto; font-size: 12px; line-height: 1.8; }
+.qr-placeholder > svg { width: 32px; height: 32px; }
+.payment-window { display: flex; align-items: center; flex-wrap: wrap; gap: 15px; background: var(--pale); border: 1px solid var(--red); border-radius: 12px; padding: 18px 22px; margin-bottom: 24px; font-size: 12px; line-height: 1.8; }
+.payment-window > span { flex: 1; min-width: 160px; }
+.payment-window .button { min-height: 36px; }
+.page-status { flex-wrap: wrap; }
+.page-status > span { flex: 1; }
+.contact-emblem { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 16px; background: var(--pale); margin-bottom: 20px; }
+.contact-emblem svg { width: 30px; height: 30px; }
+.item-picture-preview { max-width: 150px; max-height: 150px; border: 1px solid var(--line); border-radius: 10px; object-fit: contain; margin: 0 0 16px; }
+.record-picture { width: 48px; height: 48px; object-fit: contain; border: 1px solid var(--line); border-radius: 8px; }
+.receipt-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+.receipt { font-size: 12px; line-height: 1.9; }
+.receipt h3 { margin: 0 0 10px; }
+[data-feedback] { white-space: normal; }
+.bill-item-summary { margin: 9px 0 0; padding: 0; list-style: none; min-width: 170px; max-width: 360px; white-space: normal; }
+.bill-item-summary li { display: flex; justify-content: space-between; gap: 16px; padding: 4px 0; font-size: 12px; line-height: 1.6; }
+.bill-item-summary li strong { flex-shrink: 0; white-space: nowrap; }
+.item-quantity { display: block; margin-top: 6px; font-size: 14px; font-weight: 650; }
+.khata-month-panel { margin-top: 24px; }
+.khata-quantity-list { margin: 0; padding: 12px 28px 12px 48px; overflow-wrap: anywhere; }
+.khata-quantity-list li { padding: 12px 0 12px 4px; border-bottom: 1px solid var(--line); line-height: 1.8; }
+.khata-quantity-list li > span:last-child { float: right; margin-left: 16px; font-weight: 600; }
+.khata-quantity-list small { display: block; }
+.khata-workspace + .panel { margin-top: 24px; }
+@media (max-width: 760px) {
+  .purchased-items, .purchased-items tbody { display: block; width: 100%; }
+  .purchased-items thead { display: none; }
+  .purchased-items tr { display: flex; flex-direction: column; padding: 18px 20px; border-bottom: 1px solid var(--line); }
+  .purchased-items td { display: flex; justify-content: space-between; align-items: baseline; gap: 18px; padding: 6px 0; border: 0; text-align: left; white-space: normal; overflow-wrap: anywhere; }
+  .purchased-items td::before { content: attr(data-label); font-weight: 600; flex-shrink: 0; }
+  .purchased-items td.purchased-item-name { order: -1; display: block; padding-bottom: 12px; }
+  .purchased-items td.purchased-item-name::before, .purchased-items td.purchased-item-details::before, .purchased-items td[data-empty] { display: none; }
+  .purchased-items td[colspan] { display: block; }
+  .purchased-items .empty { padding: 20px 0; }
+}
+@media (max-width: 1000px) {
+  .chat-layout { grid-template-columns: 210px minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .page-actions { gap: 7px; }
+  .page-actions .button.secondary { display: inline-flex; }
+  .page-heading { flex-wrap: wrap; }
+  .page-heading > div:first-child { flex: 1 1 230px; }
+  .page-actions { justify-content: flex-start; }
+  .tabs { gap: 7px; }
+  .tab { font-size: 11px; padding: 9px 11px; }
+  .report-filters { gap: 14px; }
+  .report-filters .field { flex-basis: 100%; }
+  .report-filters > .button { width: 100%; }
+  .chat-layout { grid-template-columns: 1fr; }
+  .chat-contacts { border-right: 0; border-bottom: 1px solid var(--line); }
+  [data-chat-contacts] { max-height: 180px; overflow-y: auto; }
+  .chat-composer { grid-template-columns: 1fr; padding: 17px; }
+  .chat-composer .button { justify-self: end; }
+  .permission-grid { grid-template-columns: 1fr; }
+  .payment-window { padding: 17px; }
+  .page > .contact-grid + .panel { margin-top: 20px; }
+}
+@media print {
+  .page-status, .report-filters, .tabs, .chat-composer, .receipt-actions, [data-feedback] { display: none !important; }
+  body.printing-record .app-layout, body.printing-record > dialog:not([open]) { display: none !important; }
+  body.printing-record > dialog[open] { display: block; position: static; width: 80mm; max-width: 100%; max-height: none; border: 0; box-shadow: none; padding: 0; }
+  body.printing-record .dialog-header { display: none; }
+  body.printing-record .dialog-body { padding: 0; }
+  body.printing-record .table-wrap { margin: 10px 0; width: 100%; }
+  body.printing-record td, body.printing-record th { padding: 6px 3px; font-size: 10px; white-space: normal; }
+}
