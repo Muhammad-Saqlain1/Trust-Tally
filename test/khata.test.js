@@ -5,7 +5,12 @@ import {createApp} from '../src/server.js';
 import {addKhataItem,deliverKhataChat} from '../src/khata.js';
 test('khata entry rejects invalid quantities, units and zero rates before writing',async()=>{
   const db={transaction:async()=>{throw new Error('No database write expected');}},body={name:'Sugar',unit:'kg',quantity:'2',price:'170'};
-  for(const change of [{quantity:'0'},{quantity:'1.0001'},{unit:'piece'},{unit:'ml'},{price:'0'},{price:'-1'}])await assert.rejects(()=>addKhataItem(db,{}, {...body,...change}),error=>error.status===400);
+  for(const change of [{quantity:'0'},{quantity:'1.0001'},{unit:'ml'},{price:'0'},{price:'-1'}])await assert.rejects(()=>addKhataItem(db,{}, {...body,...change}),error=>error.status===400);
+});
+test('khata entry accepts whole-number pieces and rejects fractional or bottle pieces',async()=>{
+  const reached=new Error('validation passed'),db={transaction:async()=>{throw reached;}},body={name:'Biscuit',unit:'piece',quantity:'6',price:'40'};
+  await assert.rejects(()=>addKhataItem(db,{}, body),error=>error===reached);
+  for(const change of [{quantity:'1.5'},{quantity:'0.5'},{quantity:'1.001'},{quantity:'0'},{pricingMode:'bottle'}])await assert.rejects(()=>addKhataItem(db,{}, {...body,...change}),error=>error.status===400);
 });
 test('bill permission alone cannot create new catalogue products through khata entry',async()=>{
   const db={transaction:work=>work(async sql=>{assert.match(sql,/^SELECT/);return [];})};

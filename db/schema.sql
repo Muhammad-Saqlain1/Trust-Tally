@@ -1,4 +1,4 @@
--- MySQL 8.0+. Complete database schema. Run with npm run db:migrate; the runner records this schema.
+-- MySQL 8.0+. Complete database schema (includes migrations 007-010). Run with npm run db:migrate; the runner records this schema.
 CREATE TABLE shops (
   shop_id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   owner_name VARCHAR(120) NOT NULL, shop_name VARCHAR(160) NOT NULL,
@@ -36,12 +36,19 @@ CREATE TABLE customers (
   FOREIGN KEY(shop_id) REFERENCES shops(shop_id), FOREIGN KEY(shop_id,user_id) REFERENCES users(shop_id,user_id),
   CHECK(opening_balance >= 0), CHECK(credit_limit >= 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- Bottle capacity (package_size) is separate from its final price.
 CREATE TABLE items (
   item_id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   shop_id BIGINT UNSIGNED NOT NULL, name VARCHAR(160) NOT NULL,
-  unit ENUM('kg','liter','piece') NOT NULL, default_price DECIMAL(12,2) NOT NULL,
+  unit ENUM('kg','liter','piece','g') NOT NULL, default_price DECIMAL(12,2) NOT NULL,
   picture_url VARCHAR(500), active BOOLEAN NOT NULL DEFAULT TRUE,
-  UNIQUE(shop_id, item_id), FOREIGN KEY(shop_id) REFERENCES shops(shop_id), CHECK(default_price >= 0)
+  pricing_mode ENUM('measured','bottle') NOT NULL DEFAULT 'measured',
+  package_size DECIMAL(9,3) NULL,
+  UNIQUE(shop_id, item_id), FOREIGN KEY(shop_id) REFERENCES shops(shop_id), CHECK(default_price >= 0),
+  CONSTRAINT items_bottle_size CHECK (
+    (pricing_mode='measured' AND package_size IS NULL) OR
+    (pricing_mode='bottle' AND unit='liter' AND package_size IS NOT NULL AND package_size>0)
+  )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 CREATE TABLE bills (
   bill_id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT, shop_id BIGINT UNSIGNED NOT NULL,
@@ -59,12 +66,20 @@ CREATE TABLE bill_items (
   bill_item_id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT, shop_id BIGINT UNSIGNED NOT NULL,
   bill_id BIGINT UNSIGNED NOT NULL,
   item_id BIGINT UNSIGNED NOT NULL, name VARCHAR(160) NOT NULL,
-  quantity DECIMAL(9,3) NOT NULL, unit ENUM('kg','liter','piece') NOT NULL,
+  quantity DECIMAL(9,3) NOT NULL, unit ENUM('kg','liter','piece','g') NOT NULL,
   price DECIMAL(12,2) NOT NULL, line_total DECIMAL(12,2) NOT NULL,
   customer_status ENUM('pending','ok','disputed') NOT NULL DEFAULT 'pending',
+  pricing_mode ENUM('measured','bottle') NOT NULL DEFAULT 'measured',
+  package_size DECIMAL(9,3) NULL,
+  package_count INT UNSIGNED NULL,
   UNIQUE(shop_id,bill_item_id), UNIQUE(bill_id,bill_item_id),
   FOREIGN KEY(shop_id,bill_id) REFERENCES bills(shop_id,bill_id), FOREIGN KEY(shop_id,item_id) REFERENCES items(shop_id,item_id),
-  CHECK(quantity > 0), CHECK(price >= 0), CHECK(line_total >= 0)
+  CHECK(quantity > 0), CHECK(price >= 0), CHECK(line_total >= 0),
+  CONSTRAINT billed_bottle_size CHECK (
+    (pricing_mode='measured' AND package_size IS NULL AND package_count IS NULL) OR
+    (pricing_mode='bottle' AND unit='liter' AND package_size IS NOT NULL AND package_size>0
+      AND package_count IS NOT NULL AND package_count>0 AND quantity=package_size*package_count)
+  )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 CREATE TABLE payments (
   payment_id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT, shop_id BIGINT UNSIGNED NOT NULL,
@@ -116,6 +131,19 @@ CREATE TABLE monthly_statements (
   closing_balance DECIMAL(12,2) NOT NULL, pdf_path VARCHAR(500), UNIQUE(customer_id, month),
   FOREIGN KEY(shop_id, customer_id) REFERENCES customers(shop_id, customer_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- A monthly bill is a saved summary of credit already recorded in bills.
+-- It never creates a second ledger charge or changes a closed monthly statement.
+CREATE TABLE monthly_bills (
+  monthly_bill_id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  shop_id BIGINT UNSIGNED NOT NULL, customer_id BIGINT UNSIGNED NOT NULL,
+  month DATE NOT NULL, bill_no VARCHAR(64) UNIQUE,
+  total DECIMAL(12,2) NOT NULL CHECK(total >= 0), content_hash CHAR(64) NOT NULL,
+  snapshot JSON NOT NULL, created_by BIGINT UNSIGNED NOT NULL,
+  created_at TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  UNIQUE(shop_id,customer_id,month,content_hash), INDEX(shop_id,month,monthly_bill_id),
+  FOREIGN KEY(shop_id,customer_id) REFERENCES customers(shop_id,customer_id),
+  FOREIGN KEY(shop_id,created_by) REFERENCES users(shop_id,user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 CREATE TABLE expenses (
   expense_id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT, shop_id BIGINT UNSIGNED NOT NULL,
   expense_date DATE NOT NULL, category VARCHAR(80) NOT NULL, amount DECIMAL(12,2) NOT NULL,
@@ -131,10 +159,15 @@ CREATE TABLE supplier_transactions (
   type ENUM('purchase','payment') NOT NULL, amount DECIMAL(12,2) NOT NULL, date DATE NOT NULL,
   note VARCHAR(500), FOREIGN KEY(shop_id,supplier_id) REFERENCES suppliers(shop_id,supplier_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- Khata chat updates are written after the financial transaction commits.
+-- The source key makes a retried financial request safe to deliver again.
 CREATE TABLE chat_messages (
   message_id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT, shop_id BIGINT UNSIGNED NOT NULL,
   customer_id BIGINT UNSIGNED NOT NULL, sender_id BIGINT UNSIGNED NOT NULL,
   text TEXT NOT NULL, sent_at TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3), read_at DATETIME(3),
+  source_type ENUM('manual','khata') NOT NULL DEFAULT 'manual',
+  source_id BIGINT UNSIGNED NULL,
+  UNIQUE KEY unique_chat_source (shop_id,customer_id,source_type,source_id),
   FOREIGN KEY(shop_id, customer_id) REFERENCES customers(shop_id, customer_id), FOREIGN KEY(shop_id,sender_id) REFERENCES users(shop_id,user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 CREATE TABLE notifications (
@@ -177,4 +210,6 @@ CREATE TRIGGER monthly_statement_no_update BEFORE UPDATE ON monthly_statements F
 BEGIN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Monthly statements are immutable after closing'; END$$
 CREATE TRIGGER monthly_statement_no_delete BEFORE DELETE ON monthly_statements FOR EACH ROW
 BEGIN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Monthly statements are immutable after closing'; END$$
+CREATE TRIGGER monthly_bill_no_delete BEFORE DELETE ON monthly_bills FOR EACH ROW
+BEGIN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Saved monthly bills cannot be deleted'; END$$
 DELIMITER ;

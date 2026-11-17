@@ -1,17 +1,110 @@
+/* =====================================================================
+   TRUST-TALLY THEME
+   Default  : "Modern Tech"     navy #0F172A, slate cards #1E293B,
+                                indigo #6366F1 + cyan #06B6D4 glow, text #F8FAFC
+   Optional : "Clean & Minimal" off-white #F8FAFC, white cards,
+                                blue #2563EB + purple #7C3AED glow, text #0F172A
+   Switch   : put data-theme="light" on the <html> tag (remove it for Modern Tech).
+   Print    : always uses the light colours.
+   ===================================================================== */
 :root {
-  --red:#d32f2f;
-  --dark:#b71c1c;
-  --ink:#7f0000;
-  --pale:#ffebee;
-  --paper:#fff;
-  --line:#f5ced2;
-  --muted:#a33b3b;
-  --shadow:0 12px 40px #7f00000a;
+  color-scheme:dark;
+  /* ---- Modern Tech (default) ---- */
+  --bg:#0F172A;
+  --card:#1E293B;
+  --text:#F8FAFC;
+  --accent:#0a1219;
+  --accent-2:#06B6D4;
+  --accent-deep:#2111ec;
+  --accent-text:#06B6D4;
+  --accent-ring:#06B6D44d;
+  --muted:#94A3B8;
+  --line:#334155;
+  --line-soft:#ffffff12;
+  --line-hover:#06B6D466;
+  --pale:#6366F12e;
+  --soft:#ffffff0a;
+  --field:#0F172A;
+  --placeholder:#7C8BA1;
+  --glass:#1E293Bcc;
+  --on-accent:#fff;
+  --on-accent-ink:#0F172A;
+  --overlay:#020617b3;
+  --shadow:0 10px 30px #02061766;
+  --shadow-sm:0 2px 10px #02061759;
+  --shadow-lg:0 24px 80px #020617b3;
+  --glow:0 0 0 1px #06B6D459,0 10px 34px #06B6D42e,0 6px 18px #6366F140;
+  --ambient-a:#6366F138;
+  --ambient-b:#06B6D42b;
+  --grad-brand:linear-gradient(135deg,var(--accent-deep) 0%,var(--accent) 100%);
+  --grad-line:linear-gradient(90deg,var(--accent),var(--accent-2));
+  /* ---- names used by the older rules below ---- */
+  --red:var(--accent);
+  --dark:var(--accent-text);
+  --ink:var(--text);
+  --paper:var(--bg);
   --radius:16px;
   font-family:Inter,"Segoe UI",Arial,sans-serif;
   color:var(--ink);
   background:var(--paper);
   font-synthesis:none
+}
+:root[data-theme="light"] {
+  color-scheme:light;
+  --bg:#F8FAFC;
+  --card:#FFFFFF;
+  --text:#0F172A;
+  --accent:#2563EB;
+  --accent-2:#7C3AED;
+  --accent-deep:#1D4ED8;
+  --accent-text:#2563EB;
+  --accent-ring:#2563EB40;
+  --muted:#475569;
+  --line:#E2E8F0;
+  --line-soft:#EEF2F7;
+  --line-hover:#7C3AED66;
+  --pale:#2563EB14;
+  --soft:#F1F5F9;
+  --field:#FFFFFF;
+  --placeholder:#64748B;
+  --glass:#FFFFFFcc;
+  --overlay:#0F172A8c;
+  --shadow:0 8px 28px #0F172A14;
+  --shadow-sm:0 2px 8px #0F172A0f;
+  --shadow-lg:0 24px 80px #0F172A40;
+  --glow:0 0 0 1px #7C3AED4d,0 10px 30px #7C3AED26,0 6px 16px #2563EB26;
+  --ambient-a:#2563EB1a;
+  --ambient-b:#7C3AED14;
+}
+@media print {
+  :root {
+    color-scheme:light;
+    --bg:#F8FAFC;
+    --card:#FFFFFF;
+    --text:#0F172A;
+    --accent:#2563EB;
+    --accent-2:#7C3AED;
+    --accent-deep:#1D4ED8;
+    --accent-text:#2563EB;
+    --accent-ring:#2563EB40;
+    --muted:#475569;
+    --line:#E2E8F0;
+    --line-soft:#EEF2F7;
+    --line-hover:#7C3AED66;
+    --pale:#2563EB14;
+    --soft:#F1F5F9;
+    --field:#FFFFFF;
+    --placeholder:#64748B;
+    --glass:#FFFFFFcc;
+    --overlay:#0F172A8c;
+    --shadow:0 8px 28px #0F172A14;
+    --shadow-sm:0 2px 8px #0F172A0f;
+    --shadow-lg:0 24px 80px #0F172A40;
+    --glow:0 0 0 1px #7C3AED4d,0 10px 30px #7C3AED26,0 6px 16px #2563EB26;
+    --ambient-a:#2563EB1a;
+    --ambient-b:#7C3AED14;
+    --on-accent:#fff;
+  }
 }
 * {
   box-sizing:border-box
@@ -36,11 +129,11 @@ button:disabled {
   opacity:.55
 }
 button:focus-visible,a:focus-visible {
-  outline:3px solid var(--red);
+  outline:3px solid var(--accent-text);
   outline-offset:4px
 }
 input:focus,select:focus,textarea:focus {
-  outline:2px solid var(--red);
+  outline:2px solid var(--accent-text);
   outline-offset:2px
 }
 button svg,a svg,.icon {
@@ -58,7 +151,7 @@ button svg,a svg,.icon {
   left:16px;
   top:-80px;
   z-index:20;
-  background:white;
+  background:var(--card);
   padding:16px
 }
 .skip-link:focus {
@@ -75,7 +168,7 @@ button svg,a svg,.icon {
   font-size:14px
 }
 .button {
-  border:1px solid var(--red);
+  border:1px solid var(--accent);
   border-radius:10px;
   min-height:44px;
   display:inline-flex;
@@ -86,25 +179,28 @@ button svg,a svg,.icon {
   font-size:13px;
   padding:11px 18px;
   text-decoration:none;
-  background:var(--red);
-  color:white;
-  transition:background .15s,transform .15s
+  background:var(--grad-brand);
+  color:var(--on-accent);
+  position:relative;
+  overflow:hidden;
+  transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s ease,border-color .2s ease,filter .2s ease
 }
 .button:hover {
-  background:var(--dark);
-  border-color:var(--dark)
+  filter:brightness(1.08);
+  border-color:var(--accent-2);
+  box-shadow:var(--glow)
 }
 .button:active {
   transform:translateY(1px)
 }
 .button.secondary {
-  background:white;
+  background:var(--card);
   color:var(--dark);
   border-color:var(--line)
 }
 .button.secondary:hover {
   background:var(--pale);
-  border-color:var(--red)
+  border-color:var(--accent)
 }
 .button.small {
   min-height:36px;
@@ -125,7 +221,7 @@ button svg,a svg,.icon {
   min-height:40px
 }
 .icon-button {
-  background:white;
+  background:var(--card);
   border:1px solid var(--line);
   border-radius:10px;
   width:42px;
@@ -175,8 +271,8 @@ button svg,a svg,.icon {
   min-height:100dvh
 }
 .auth-story {
-  background:var(--red);
-  color:white;
+  background:var(--grad-brand);
+  color:var(--on-accent);
   padding:42px 9% 35px;
   display:flex;
   flex-direction:column;
@@ -184,10 +280,10 @@ button svg,a svg,.icon {
   overflow:hidden
 }
 .auth-story .brand {
-  color:white
+  color:var(--on-accent)
 }
 .auth-story .brand img {
-  border:1px solid #ffffff66;
+  
   border-radius:10px
 }
 .story-copy {
@@ -206,7 +302,7 @@ button svg,a svg,.icon {
   max-width:370px;
   font-size:15px;
   line-height:1.85;
-  color:#fff
+  color:var(--on-accent)
 }
 .story-tag {
   font-size:11px;
@@ -220,7 +316,7 @@ button svg,a svg,.icon {
   content:"";
   width:24px;
   height:1px;
-  background:white
+  background:var(--on-accent)
 }
 .ledger-art {
   position:relative;
@@ -229,13 +325,13 @@ button svg,a svg,.icon {
   min-height:180px
 }
 .art-book {
-  background:white;
+  background:var(--card);
   color:var(--ink);
   border-radius:12px;
   padding:22px 24px;
   width:86%;
   transform:rotate(-4deg);
-  box-shadow:10px 12px 0 #b71c1c
+  box-shadow:10px 12px 0 #0206175c
 }
 .art-top {
   display:flex;
@@ -267,7 +363,7 @@ button svg,a svg,.icon {
   right:0;
   bottom:2px;
   border:1px solid #ffffff66;
-  background:var(--dark);
+  background:#1E293B;
   padding:15px 20px;
   border-radius:12px;
   transform:rotate(3deg);
@@ -339,7 +435,7 @@ button svg,a svg,.icon {
   border:1px solid var(--line);
   border-radius:9px;
   min-height:46px;
-  background:white;
+  background:var(--field);
   color:var(--ink);
   padding:11px 13px;
   width:100%;
@@ -351,7 +447,7 @@ button svg,a svg,.icon {
   resize:vertical
 }
 .field input::placeholder,.field textarea::placeholder {
-  color:#bc6a6a
+  color:var(--placeholder)
 }
 .field small {
   font-size:11px;
@@ -366,7 +462,7 @@ button svg,a svg,.icon {
   font-size:12px;
   color:var(--dark);
   padding:12px 14px;
-  border:1px solid var(--red);
+  border:1px solid var(--accent);
   background:var(--pale);
   border-radius:8px;
   line-height:1.7;
@@ -375,7 +471,7 @@ button svg,a svg,.icon {
 .setup-note {
   font-size:12px;
   line-height:1.7;
-  border-left:3px solid var(--red);
+  border-left:3px solid var(--accent);
   background:var(--pale);
   padding:12px 15px;
   margin:16px 0
@@ -388,7 +484,7 @@ button svg,a svg,.icon {
   margin:15px 0
 }
 .check-field input {
-  accent-color:var(--red);
+  accent-color:var(--accent);
   width:18px;
   height:18px;
   flex-shrink:0
@@ -399,7 +495,7 @@ button svg,a svg,.icon {
   min-height:100dvh
 }
 .sidebar {
-  background:white;
+  background:var(--card);
   border-right:1px solid var(--line);
   padding:28px 18px 20px;
   display:flex;
@@ -416,7 +512,7 @@ button svg,a svg,.icon {
   font-size:20px
 }
 .shop-switcher {
-  background:#fff8f9;
+  background:var(--soft);
   border:1px solid var(--line);
   border-radius:10px;
   margin:28px 0;
@@ -428,7 +524,7 @@ button svg,a svg,.icon {
 .shop-switcher>svg {
   width:22px;
   height:22px;
-  stroke:var(--red);
+  stroke:var(--accent-text);
   fill:none;
   stroke-width:1.6
 }
@@ -471,7 +567,7 @@ button svg,a svg,.icon {
   text-decoration:none
 }
 .nav a:hover {
-  background:#fff8f9;
+  background:var(--soft);
   color:var(--dark)
 }
 .nav a.active {
@@ -484,7 +580,7 @@ button svg,a svg,.icon {
   width:5px;
   height:5px;
   border-radius:50%;
-  background:var(--red);
+  background:var(--accent);
   margin-left:auto
 }
 .sidebar-bottom {
@@ -505,12 +601,12 @@ button svg,a svg,.icon {
 .workspace {
   grid-column:2;
   min-width:0;
-  background:#fffafb
+  background:transparent
 }
 .topbar {
   min-height:86px;
   border-bottom:1px solid var(--line);
-  background:white;
+  background:var(--card);
   padding:19px 38px;
   display:flex;
   align-items:center;
@@ -544,12 +640,12 @@ button svg,a svg,.icon {
   content:"";
   width:6px;
   height:6px;
-  border:1px solid var(--red);
+  border:1px solid var(--accent);
   border-radius:50%;
-  background:var(--red)
+  background:var(--accent)
 }
 .connection.offline:before {
-  background:white
+  background:var(--card)
 }
 .topbar-date {
   font-size:11px;
@@ -600,8 +696,8 @@ button svg,a svg,.icon {
   gap:9px
 }
 .welcome-banner {
-  background:var(--red);
-  color:white;
+  background:var(--grad-brand);
+  color:var(--on-accent);
   border-radius:var(--radius);
   padding:26px 30px;
   margin-bottom:25px;
@@ -636,14 +732,14 @@ button svg,a svg,.icon {
   max-width:450px
 }
 .welcome-banner .button {
-  background:white;
-  border-color:white;
-  color:var(--dark);
+  background:var(--on-accent);
+  border-color:var(--on-accent);
+  color:var(--on-accent-ink);
   z-index:1;
   flex-shrink:0
 }
 .welcome-banner .button:hover {
-  background:var(--pale)
+  background:var(--on-accent)
 }
 .stats {
   display:grid;
@@ -652,7 +748,7 @@ button svg,a svg,.icon {
   margin-bottom:26px
 }
 .stat {
-  background:white;
+  background:var(--card);
   border:1px solid var(--line);
   border-radius:13px;
   padding:21px 20px
@@ -672,7 +768,7 @@ button svg,a svg,.icon {
   place-items:center;
   background:var(--pale);
   border-radius:9px;
-  color:var(--red)
+  color:var(--accent-text)
 }
 .stat-icon svg {
   width:17px;
@@ -706,7 +802,7 @@ button svg,a svg,.icon {
 .panel {
   border:1px solid var(--line);
   border-radius:var(--radius);
-  background:white;
+  background:var(--card);
   overflow:hidden;
   box-shadow:var(--shadow)
 }
@@ -760,7 +856,7 @@ button svg,a svg,.icon {
   display:grid;
   place-items:center;
   margin-bottom:17px;
-  color:var(--red)
+  color:var(--accent-text)
 }
 .empty-icon svg {
   width:25px;
@@ -843,7 +939,7 @@ button svg,a svg,.icon {
 }
 .capacity-track {
   height:5px;
-  background:white;
+  background:var(--field);
   margin-top:13px;
   border-radius:3px;
   overflow:hidden
@@ -852,13 +948,13 @@ button svg,a svg,.icon {
   width:100%;
   height:5px;
   display:block;
-  accent-color:var(--red)
+  accent-color:var(--accent)
 }
 .capacity-track progress::-webkit-progress-bar {
-  background:white
+  background:var(--field)
 }
 .capacity-track progress::-webkit-progress-value {
-  background:var(--red)
+  background:var(--grad-line)
 }
 .table-wrap {
   overflow-x:auto;
@@ -876,20 +972,20 @@ th {
   text-transform:uppercase;
   letter-spacing:.08em;
   color:var(--muted);
-  background:#fff8f9;
+  background:var(--soft);
   padding:13px 22px;
   border-bottom:1px solid var(--line)
 }
 td {
   padding:17px 22px;
   font-size:12px;
-  border-bottom:1px solid #ffebee
+  border-bottom:1px solid var(--line-soft)
 }
 tbody tr:last-child td {
   border-bottom:0
 }
 tbody tr:hover {
-  background:#fffafb
+  background:var(--pale)
 }
 td strong {
   font-weight:600
@@ -920,11 +1016,11 @@ td small {
   height:11px
 }
 .badge.outline {
-  background:white;
-  border-color:var(--red)
+  background:var(--card);
+  border-color:var(--accent)
 }
 .badge.soft {
-  background:#fff8f9
+  background:var(--soft)
 }
 .toolbar {
   padding:18px 22px;
@@ -955,7 +1051,7 @@ td small {
   border-radius:8px;
   padding:9px 12px 9px 38px;
   color:var(--ink);
-  background:white;
+  background:var(--field);
   font-size:12px
 }
 .table-count {
@@ -1126,10 +1222,10 @@ td small {
   bottom:26px;
   left:50%;
   transform:translateX(-50%);
-  background:var(--ink);
-  color:white;
-  border:1px solid white;
-  box-shadow:0 8px 25px #7f000030;
+  background:var(--card);
+  color:var(--ink);
+  border:1px solid var(--accent-2);
+  box-shadow:var(--shadow-lg);
   border-radius:11px;
   padding:15px 22px;
   max-width:min(90vw,540px);
@@ -1148,11 +1244,12 @@ dialog {
   max-width:min(94vw,760px);
   width:100%;
   color:var(--ink);
-  box-shadow:0 25px 100px #7f000033;
+  box-shadow:var(--shadow-lg);
+  background:var(--card);
   max-height:90dvh
 }
 dialog::backdrop {
-  background:#7f000066;
+  background:var(--overlay);
   backdrop-filter:blur(3px)
 }
 .dialog-header {
@@ -1237,7 +1334,7 @@ dialog::backdrop {
 }
 @keyframes attention {
   50% {
-    box-shadow:0 0 0 3px #d32f2f25
+    box-shadow:0 0 0 3px var(--accent-ring)
   }
 }
 [hidden] {
@@ -1388,7 +1485,7 @@ dialog::backdrop {
     display:block;
     position:fixed;
     inset:0;
-    background:#7f000066;
+    background:var(--overlay);
     z-index:4
   }
   .menu-button {
@@ -1621,7 +1718,7 @@ dialog::backdrop {
     display:none!important
   }
   .workspace {
-    background:white
+    background:var(--card)
   }
   .app-layout {
     display:block

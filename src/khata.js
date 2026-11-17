@@ -16,11 +16,12 @@ export async function deliverKhataChat(db,user,{customerId,billId,message}){
 
 export async function addKhataItem(db, user, body) {
   const name=text(body.name,'Item name',160),unit=body.unit;
-  ensure(['kg','g','liter'].includes(unit),400,'Choose kg, gram, or liter.');
+  ensure(['kg','g','liter','piece'].includes(unit),400,'Choose kg, gram, liter, or piece.');
   const mode=body.pricingMode??'measured';
   ensure(['measured','bottle'].includes(mode),400,'Choose a valid pricing method.');
   ensure(mode!=='bottle'||unit==='liter',400,'Bottle sizes must be entered in liters.');
   const size=quantity(body.quantity),packageSize=mode==='bottle'?(size/1000).toFixed(3):null;
+  ensure(unit!=='piece'||size%1000===0,400,'Items sold by piece need a whole-number quantity.');
   const count=mode==='bottle'?String(body.bottleCount??'1'):null;
   ensure(mode!=='bottle'||(/^[1-9]\d{0,5}$/.test(count)&&size*Number(count)<=999999999),400,'Enter a whole number of bottles within the supported quantity limit.');
   const price=decimal(money(body.price,'Rate'));

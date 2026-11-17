@@ -1,4 +1,4 @@
-// Plain HTML screen source. Run `npm run pages:build` after editing these templates.
+// Plain HTML screen source. Run `npm run pages:` after editing these templates.
 import { mkdir, writeFile } from 'node:fs/promises';
 import { itemUnits, measurementColumns } from '../public/units.js';
 import {khataWorkspace,monthlyBillList} from '../public/khata.js';

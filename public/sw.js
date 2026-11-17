@@ -1,5 +1,5 @@
-const CACHE = 'trust-tally-shell-v13';
-const SHELL = ['/', '/index.html', '/styles.css', '/pages.css', '/ui.css', '/app.js', '/pages.js', '/units.js', '/item-display.js', '/khata.js', '/offline.js', '/page-catalog.json', '/manifest.webmanifest', '/assets/icon.svg', '/assets/icon-192.png', '/assets/icon-512.png'];
+const CACHE = 'trust-tally-shell-v14';
+const SHELL = ['/', '/index.html', '/styles.css', '/pages.css', '/ui.css', '/app.js', '/pages.js', '/units.js', '/item-display.js', '/khata.js', '/offline.js', '/page-catalog.json', '/manifest.webmanifest', '/assets/logo.png', '/assets/icon-192.png', '/assets/icon-512.png'];
 self.addEventListener('install', event => event.waitUntil((async()=>{
   const catalog=await fetch('/page-catalog.json',{cache:'no-store'}).then(response=>{if(!response.ok)throw new Error('Page catalog unavailable');return response.json();});
   const cache=await caches.open(CACHE);
