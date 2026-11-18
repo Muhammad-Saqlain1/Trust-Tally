@@ -134,3 +134,9 @@ button.mobile-overlay { border: 0; padding: 0; }
   .contact-emblem:hover { transform: rotate(-6deg) scale(1.08); }
   .khata-quantity-list li:hover { padding-left: 10px; }
 }
+.topbar-logout { white-space: nowrap; }
+.topbar-logout .icon { width: 16px; height: 16px; }
+@media (max-width: 640px) {
+  .topbar-logout span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .topbar-logout { width: 44px; height: 44px; padding: 0; justify-content: center; }
+}
